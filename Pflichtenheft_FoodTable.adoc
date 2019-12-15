@@ -1,0 +1,114 @@
+= Pflichtenheft FoodTable
+// Metadata
+:author: Eichhorn, Herzog, Wallinger
+:email: info@foodtable.at
+:date: 2019-12-14
+:revision:  1.0
+// Settings
+:source-highlighter: coderay
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+// Refs:
+// :imagesdir: images
+// :sourcedir-code: src/main/java/at/htl/jdbcprimer
+// :sourcedir-test: src/test/java/at/htl/jdbcprimer
+:toc:
+
+Version: {revision}
+
+++++
+<link rel="stylesheet"  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+++++
+
+== Ausgangszustand
+Ausgegangen wird von einem Wohnheim im Zentralraum Linz - das Wohnheim richtet sich an Schüler und Lehrlinge.
+Täglich werden Speisen (Frühstück und Abendessen) serviert.
+
+== Istzustand
+Der Speiseplan wird wöchentlich auf einem "schwarzen Brett" veröffentlicht.
+Will ein Schüler sich unterwegs über den aktuellen Plan informieren, so muss er wissen, wo er
+den Speiseplan online finden kann - im Moment wird im Wohnheim nicht über eine etwaige Möglichkeit hingewiesen - oder diesen vorher aufgeschrieben bzw. fotografiert haben.
+
+[plantuml, svg]
+....
+@startuml
+|Mitarbeiter|
+start
+:Plan erstellen;
+fork
+    :Plan ausdrucken;
+    :Plan aushängen;
+fork again
+    :Plan online stellen;
+end fork
+|Bewohner|
+:Schaue Speiseplan an ;
+if (online verfügbar    ) then (ja)
+    :Plan online einsehen;
+else (nein)
+    :Speiseplan fotografieren;
+    :Foto von Plan ansehen;
+endif
+stop
+@enduml
+....
+
+== Problemstellung
+In einigen Wohnheimen ist der (oftmals wöchentliche) Speiseplan in vielen Fällen nur offline verfügbar oder nicht
+so einfach im Internet zu finden - aus diesem Grund fotografieren sich die Bewohner den Speiseplan einfach.
+Ärgerlich ist es besonders dann, wenn man vergessen hat, sich den Plan zu fotografieren.
+
+== Aufgabenstellung
+Es ist eine Android-App (in Java) zur dazugehörigen Webanwendung (https://dev.foodtable.at) zu erstellen, die es ermöglicht,
+die Daten einfach und schnell mithilfe eines QR-Codes abzurufen. Eine denkbare Erweiterung wäre die Implementierung einer
+Benachrichtigungsfunktion, um Bewohner über Neuigkeiten zu informieren.
+
+[plantuml]
+....
+@startuml
+Mitarbeiter -right- Speiseplan : erstellt
+Bewohner <|-- Mitarbeiter
+Bewohner -- Speiseplan : liest
+@enduml
+....
+
+[plantuml]
+....
+@startuml
+|Mitarbeiter|
+start
+:Plan erstellen;
+:Speiseplan online eingeben;
+|Bewohner|
+:Scanne QR-Code in App  ;
+:Informationen lesen ;
+stop
+@enduml
+....
+
+== Zielsetzung
+Ziel des Projekts ist es, den Speiseplan eines Wohnheims einfacher und schneller über das Internet abrufbar
+zu machen. Die Wohnheimverwaltung sollte sich möglichst schnell im Webinterface zurechtfinden können,
+selbiges gilt für die Bewohner (beim Verwenden der App oder der Website im abgemeldeten Zustand).
+
+== Funktionale Anforderungen
+* Speiseplan online einsehbar
+* Allergene zu Speisen anzeigen
+* Essen zu verschiedenen Zeiten anzeigen (Früh, Mittag, Abend)
+* Benachrichtigungsfunktion
+
+== Nichtfunktionale Anforderungen
+* Datensicherheit (Accountdaten, Login/Registrierung, ...)
+* Zuverlässigkeit
+* Effizienz
+
+== Mengengerüst
+Die Anzahl der vorrausichtlichen Benutzer lässt sich in diesem Fall nicht wirklich schätzen:
+Pro Wohnheim gibt es im Grunde eine Person, die für das Eintragen des Speiseplans verantwortlich ist.
+In Spezialfällen können einem Wohnheim mehrere Benutzerkonten zugewiesen werden.
+
+Je nach Wohnheim kann Frühstück, Mittag- und Abendessen aktiviert oder deaktiviert werden.
+Im Standardtemplate befinden sich in einer Woche also 3 (Anzahl Essenstypen) * 5 (Wochentage) * 2 (Doppelte Felder wg. Allergenen)
+-> 30 Datenfelder pro Woche in einem Wohnheim.
+
+Die Zugriffsrate kann ebenfalls nicht vorausgesagt werden: Je nach Anzahl der registrierten Wohnheime und Bewohner variiert diese stark.
