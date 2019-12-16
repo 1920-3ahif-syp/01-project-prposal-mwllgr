@@ -66,9 +66,58 @@ Benachrichtigungsfunktion, um Bewohner über Neuigkeiten zu informieren.
 [plantuml]
 ....
 @startuml
-Mitarbeiter -right- Speiseplan : erstellt
+class Mitarbeiter {
+    Name
+    E-Mail
+    WH-Zuweisung
+    verwaltePlan()
+    verwalteWH()
+}
+class Bewohner {
+    WH-Zuweisung
+    tätigeEinsichtnahme()
+}
+
+class Einsichtnahme {
+    Bewohner
+    Speiseplan
+}
+
+class Wohnheim {
+    WH-Code
+    Name
+    Anschrift
+}
+
+class Speiseplan {
+    KW
+    Wohnheim
+    Speisen
+    Allergene
+}
+Wohnheim"1" -left- "*"Bewohner: wohnt in
+Mitarbeiter"*" -up- "1"Wohnheim : arbeitet in
+
+
+Mitarbeiter  "1" -- "*"Speiseplan : verwaltet
 Bewohner <|-- Mitarbeiter
-Bewohner -- Speiseplan : liest
+Bewohner"1" -- "*"Einsichtnahme : tätigt
+Einsichtnahme"*" -down- "1"Speiseplan : hat
+@enduml
+....
+
+[plantuml]
+....
+@startuml
+left to right direction
+actor Mitarbeiter
+actor Bewohner
+rectangle FoodTable {
+  Mitarbeiter -- (Einsicht)
+  Mitarbeiter -- (Speiseplanverwaltung)
+  (Speiseplanverwaltung) .> (Einsicht) : include
+  (Einsicht) -- Bewohner
+}
 @enduml
 ....
 
@@ -85,6 +134,8 @@ start
 stop
 @enduml
 ....
+
+
 
 == Zielsetzung
 Ziel des Projekts ist es, den Speiseplan eines Wohnheims einfacher und schneller über das Internet abrufbar
