@@ -29,7 +29,7 @@ Der Speiseplan wird wöchentlich auf einem "schwarzen Brett" veröffentlicht.
 Will ein Schüler sich unterwegs über den aktuellen Plan informieren, so muss er wissen, wo er
 den Speiseplan online finden kann - im Moment wird im Wohnheim nicht über eine etwaige Möglichkeit hingewiesen - oder diesen vorher aufgeschrieben bzw. fotografiert haben.
 
-[plantuml, svg]
+[plantuml,activity,png]
 ....
 @startuml
 |Mitarbeiter|
@@ -63,7 +63,7 @@ Es ist eine Android-App (in Java) zur dazugehörigen Webanwendung (https://dev.f
 die Daten einfach und schnell mithilfe eines QR-Codes abzurufen. Eine denkbare Erweiterung wäre die Implementierung einer
 Benachrichtigungsfunktion, um Bewohner über Neuigkeiten zu informieren.
 
-[plantuml]
+[plantuml,class,png]
 ....
 @startuml
 class Mitarbeiter {
@@ -106,7 +106,7 @@ Einsichtnahme"*" -down- "1"Speiseplan : hat
 @enduml
 ....
 
-[plantuml]
+[plantuml,use-case,png]
 ....
 @startuml
 left to right direction
@@ -121,7 +121,7 @@ rectangle FoodTable {
 @enduml
 ....
 
-[plantuml]
+[plantuml,activity2,png]
 ....
 @startuml
 |Mitarbeiter|
