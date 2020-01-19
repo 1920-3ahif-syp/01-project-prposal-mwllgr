@@ -2,8 +2,8 @@
 // Metadata
 :author: Eichhorn, Herzog, Wallinger
 :email: info@foodtable.at
-:date: 2019-12-14
-:revision:  1.0
+:date: 2020-01-19
+:revision: 1.1
 // Settings
 :source-highlighter: coderay
 :icons: font
@@ -20,52 +20,51 @@ Version: {revision}
 <link rel="stylesheet"  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 ++++
 
+== Motivation
+Als Bewohner eines Schülerwohnheims ist es mir wichtig zu wissen, welche Speisen es wann gibt. Mein Schülerheim bietet
+keine Möglichkeit an, den Speiseplan über das Internet abzurufen. Mit diesem Projekt wollen wir ein Hilfsmittel zur einfachen Veröffentlichung erstellen.
+
 == Ausgangszustand
 Ausgegangen wird von einem Wohnheim im Zentralraum Linz - das Wohnheim richtet sich an Schüler und Lehrlinge.
 Täglich werden Speisen (Frühstück und Abendessen) serviert.
 
 == Istzustand
 Der Speiseplan wird wöchentlich auf einem "schwarzen Brett" veröffentlicht.
-Will ein Schüler sich unterwegs über den aktuellen Plan informieren, so muss er wissen, wo er
-den Speiseplan online finden kann - im Moment wird im Wohnheim nicht über eine etwaige Möglichkeit hingewiesen - oder diesen vorher aufgeschrieben bzw. fotografiert haben.
+Will ein Schüler sich unterwegs über den aktuellen Plan informieren muss er diesen vorher aufgeschrieben bzw. fotografiert haben.
 
+=== Aktivitätsdiagramm Istzustand
 [plantuml,activity,png]
 ....
 @startuml
 |Mitarbeiter|
 start
 :Plan erstellen;
-fork
     :Plan ausdrucken;
     :Plan aushängen;
-fork again
-    :Plan online stellen;
-end fork
 |Bewohner|
-:Schaue Speiseplan an ;
-if (online verfügbar    ) then (ja)
-    :Plan online einsehen;
-else (nein)
+if(Speiseplan fotografiert?     ) then (Ja)
+    else (Nein)
     :Speiseplan fotografieren;
-    :Foto von Plan ansehen;
 endif
+:Foto zugreifen;
 stop
 @enduml
 ....
 
 == Problemstellung
-In einigen Wohnheimen ist der (oftmals wöchentliche) Speiseplan in vielen Fällen nur offline verfügbar oder nicht
-so einfach im Internet zu finden - aus diesem Grund fotografieren sich die Bewohner den Speiseplan einfach.
+In fast allen Wohnheimen ist der (oftmals wöchentliche) Speiseplan nur offline verfügbar - aus diesem Grund fotografieren sich die Bewohner den Speiseplan einfach.
 Ärgerlich ist es besonders dann, wenn man vergessen hat, sich den Plan zu fotografieren.
 
 == Aufgabenstellung
-Es ist eine Android-App (in Java) zur dazugehörigen Webanwendung (https://dev.foodtable.at) zu erstellen, die es ermöglicht,
+Es ist eine Android-App zu einer dazugehörigen Webanwendung (https://dev.foodtable.at) zu erstellen, die es ermöglicht,
 die Daten einfach und schnell mithilfe eines QR-Codes abzurufen. Eine denkbare Erweiterung wäre die Implementierung einer
-Benachrichtigungsfunktion, um Bewohner über Neuigkeiten zu informieren.
+Benachrichtigungsfunktion (Pushnachricht an Android-Smartphones), um Bewohner über Neuigkeiten zu informieren.
 
+=== Klassendiagramm
 [plantuml,class,png]
 ....
 @startuml
+left to right direction
 class Mitarbeiter {
     Name
     E-Mail
@@ -78,15 +77,11 @@ class Bewohner {
     tätigeEinsichtnahme()
 }
 
-class Einsichtnahme {
-    Bewohner
-    Speiseplan
-}
-
 class Wohnheim {
     WH-Code
     Name
     Anschrift
+    neusterSpeiseplan()
 }
 
 class Speiseplan {
@@ -95,17 +90,16 @@ class Speiseplan {
     Speisen
     Allergene
 }
-Wohnheim"1" -left- "*"Bewohner: wohnt in
-Mitarbeiter"*" -up- "1"Wohnheim : arbeitet in
+Wohnheim"1" -- "*"Bewohner: wohnt in <
+Mitarbeiter"*" -- "1"Wohnheim : arbeitet in >
 
 
-Mitarbeiter  "1" -- "*"Speiseplan : verwaltet
-Bewohner <|-- Mitarbeiter
-Bewohner"1" -- "*"Einsichtnahme : tätigt
-Einsichtnahme"*" -down- "1"Speiseplan : hat
+Wohnheim  "1" -- "*"Speiseplan : gehört zu <
+
 @enduml
 ....
 
+=== Anwendungsfalldiagramm
 [plantuml,use-case,png]
 ....
 @startuml
@@ -121,6 +115,8 @@ rectangle FoodTable {
 @enduml
 ....
 
+
+=== Aktivitätsdiagramm Sollzustand
 [plantuml,activity2,png]
 ....
 @startuml
@@ -149,7 +145,7 @@ selbiges gilt für die Bewohner (beim Verwenden der App oder der Website im abge
 * Benachrichtigungsfunktion
 
 == Nichtfunktionale Anforderungen
-* Datensicherheit (Accountdaten, Login/Registrierung, ...)
+* Datensicherheit & Datenschutz (Accountdaten, Login/Registrierung, ...)
 * Zuverlässigkeit
 * Effizienz
 
