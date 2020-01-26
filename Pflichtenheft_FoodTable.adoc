@@ -51,6 +51,7 @@ stop
 @enduml
 ....
 
+
 == Problemstellung
 In fast allen Wohnheimen ist der (oftmals wöchentliche) Speiseplan nur offline verfügbar - aus diesem Grund fotografieren sich die Bewohner den Speiseplan einfach.
 Ärgerlich ist es besonders dann, wenn man vergessen hat, sich den Plan zu fotografieren.
