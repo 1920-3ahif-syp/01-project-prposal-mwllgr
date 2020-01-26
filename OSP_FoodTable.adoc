@@ -1,0 +1,27 @@
+= Deployment FoodTable
+// Metadata
+:author: Eichhorn, Herzog, Wallinger
+:email: info@foodtable.at
+:date: 2020-01-26
+:revision: 1.0
+// Settings
+:source-highlighter: coderay
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+// Refs:
+// :imagesdir: images
+// :toc:
+
+Version: {revision}
+
+++++
+<link rel="stylesheet"  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+++++
+
+== Objektstrukturplan
+
+[plantuml,deployment,png]
+....
+@startuml
+@enduml
+....
